@@ -618,8 +618,8 @@ __global__ void sobelKernel(const unsigned char* input_data,
         //Copy data to shared memory ----------------------------------------------------------------------------
 
         //1. All threads read, shift up and left
-        ptr_ui = (unsigned int*) (input_data + ((i - N) * input_pitch));
-        input_data_smem[threadIdx.y][threadIdx.x] = ptr_ui[j - N2];
+        ptr_ui = (unsigned int*) (input_data + (max(i - N, 0) * input_pitch));
+        input_data_smem[threadIdx.y][threadIdx.x] = ptr_ui[max(j - N2, 0)];
         //2. Right columns
         if(threadIdx.x < (N2 << 1))
         {
