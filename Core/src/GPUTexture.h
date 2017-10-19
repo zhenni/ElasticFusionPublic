@@ -45,6 +45,9 @@ class GPUTexture
 
         cudaGraphicsResource * cudaRes;
 
+        cudaArray * cudaArr;
+        cudaTextureObject_t texObj;
+
         const bool draw;
 
     private:

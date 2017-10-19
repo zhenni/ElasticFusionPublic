@@ -71,6 +71,7 @@ ElasticFusion::ElasticFusion(const int timeDelta,
    lastFrameRecovery(false),
    trackingCount(0),
    maxDepthProcessed(20.0f),
+   trackingOnly(false),
    rgbOnly(false),
    icpWeight(icpThresh),
    pyramid(true),
@@ -567,7 +568,7 @@ void ElasticFusion::processFrame(const unsigned char * rgb,
             }
         }
 
-        if(!rgbOnly && trackingOk && !lost)
+        if(!trackingOnly && !rgbOnly && trackingOk && !lost)
         {
             TICK("indexMap");
             indexMap.predictIndices(currPose, tick, globalModel.model(), maxDepthProcessed, timeDelta);
@@ -616,6 +617,9 @@ void ElasticFusion::processFrame(const unsigned char * rgb,
                               timeDelta,
                               maxDepthProcessed,
                               fernAccepted);
+            indexMap.renderSurfelIds(currPose, tick, globalModel.model(), confidenceThreshold, maxDepthProcessed, timeDelta);
+        } else if (trackingOnly) {
+            indexMap.renderSurfelIds(currPose, tick, globalModel.model(), confidenceThreshold, maxDepthProcessed, timeDelta);
         }
     }
 
@@ -908,6 +912,11 @@ const float & ElasticFusion::getConfidenceThreshold()
 void ElasticFusion::setRgbOnly(const bool & val)
 {
     rgbOnly = val;
+}
+
+void ElasticFusion::setTrackingOnly(const bool & val)
+{
+    trackingOnly = val;
 }
 
 void ElasticFusion::setIcpWeight(const float & val)

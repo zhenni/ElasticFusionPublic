@@ -4,6 +4,7 @@ project(GPUTest)
 
 find_package(Pangolin 0.1 REQUIRED)
 find_package(CUDA REQUIRED)
+set(CUDA_HOST_COMPILER gcc-5)
 
 set(efusion_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../Core/src" CACHE PATH "Where ElasticFusion.h lives")
 set(efusion_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/../../Core/build/libefusion.so" CACHE FILEPATH "Where libefusion.so lives")
